@@ -25,5 +25,10 @@ std::string check_brackets(const std::string& text) {
         }// else
     }// position
 
-    return (std::string("Success"));
+    if(!opening_brackets_stack.empty()) {
+        auto top = opening_brackets_stack.top();
+        return std::to_string(top.position);
+    }
+
+    return std::string("Success");
 }

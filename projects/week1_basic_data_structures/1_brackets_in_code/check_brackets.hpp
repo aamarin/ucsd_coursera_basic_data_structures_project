@@ -12,6 +12,8 @@ struct Bracket {
     {}
 
     bool Matchc(char c) {
+        // std::cout << "type: " << type << " c: " << c << std::endl;
+
         if (type == '[' && c == ']')
             return true;
         if (type == '{' && c == '}')
