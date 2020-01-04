@@ -7,7 +7,7 @@ test: $(TEST_OBJS)
 	$(CC) $(CXXFLAGS) -o test $(TEST_OBJS)
 
 catch.o: $(INC_DIR)/catch.hpp
-check_brackets.o : $(INC_DIR)/catch.hpp
+check_brackets.o : check_brackets.hpp $(INC_DIR)/catch.hpp
 check_brackets_ut.o: $(INC_DIR)/catch.hpp
 .PHONY: clean
 clean:

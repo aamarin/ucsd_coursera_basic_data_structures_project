@@ -8,20 +8,20 @@ std::string check_brackets(const std::string& text) {
         char next = text[position];
         Bracket l_bracket(next, position + 1);
 
-        if (next == '(' || next == '[' || next == '{') {
+        if(next == '(' || next == '[' || next == '{') {
             // Process opening bracket
             if(text.length() == 1) return std::to_string(position + 1);
             opening_brackets_stack.push(l_bracket);
         }
 
-        else {
+        else if(next == ')' || next == ']' || next == '}') {
             // Process closing bracket
             if(opening_brackets_stack.empty()) return std::to_string(position + 1);
 
             auto top = opening_brackets_stack.top();
             opening_brackets_stack.pop();
 
-            if( !top.Matchc(next) ) return std::to_string(top.position + 1);
+            if( !top.Matchc(next) ) return std::to_string(position + 1);
         }// else
     }// position
 
