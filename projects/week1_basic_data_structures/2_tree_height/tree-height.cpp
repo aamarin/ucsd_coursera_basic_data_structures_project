@@ -1,30 +1,48 @@
 #include <algorithm>
 #include <iostream>
-#include <vector>
 #if defined(__unix__) || defined(__APPLE__)
 #include <sys/resource.h>
 #endif
+#include "tree-height.hpp"
 
-class Node;
+void set_kernel_stack_size() {
+#if defined(__unix__) || defined(__APPLE__)
+  // Allow larger stack space
+  constexpr rlim_t kStackSize = 16 * 1024 * 1024;   // min stack size = 16 MB
+  struct rlimit rl;
+  int result = getrlimit(RLIMIT_STACK, &rl);
 
-class Node {
-public:
-    int key;
-    Node *parent;
-    std::vector<Node *> children;
+  if (result == 0)
+  {
+      if (rl.rlim_cur < kStackSize)
+      {
+          rl.rlim_cur = kStackSize;
+          result = setrlimit(RLIMIT_STACK, &rl);
+          if (result != 0)
+          {
+              std::cerr << "setrlimit returned result = " << result << std::endl;
+          }
+      }
+  }
+#endif
+}
 
-    Node() {
-      this->parent = NULL;
-    }
+int findMaxHeight(std::vector<Node>& nodes, int n) {
+  int maxHeight = 0;
+  for (int leaf_index = 0; leaf_index < n; leaf_index++) {
+    int height = 0;
+    for (Node *v = &nodes[leaf_index]; v != NULL; v = v->parent)
+      height++;
+    maxHeight = std::max(maxHeight, height);
+  }
 
-    void setParent(Node *theParent) {
-      parent = theParent;
-      parent->children.push_back(this);
-    }
-};
+  return maxHeight;
+}
 
+int main (int argc, char **argv)
+{
+  set_kernel_stack_size();
 
-int main_with_large_stack_space() {
   std::ios_base::sync_with_stdio(0);
   int n;
   std::cin >> n;
@@ -40,40 +58,7 @@ int main_with_large_stack_space() {
   }
 
   // Replace this code with a faster implementation
-  int maxHeight = 0;
-  for (int leaf_index = 0; leaf_index < n; leaf_index++) {
-    int height = 0;
-    for (Node *v = &nodes[leaf_index]; v != NULL; v = v->parent)
-      height++;
-    maxHeight = std::max(maxHeight, height);
-  }
-    
+  int maxHeight = findMaxHeight(nodes, n);
   std::cout << maxHeight << std::endl;
   return 0;
-}
-
-int main (int argc, char **argv)
-{
-#if defined(__unix__) || defined(__APPLE__)
-  // Allow larger stack space
-  const rlim_t kStackSize = 16 * 1024 * 1024;   // min stack size = 16 MB
-  struct rlimit rl;
-  int result;
-
-  result = getrlimit(RLIMIT_STACK, &rl);
-  if (result == 0)
-  {
-      if (rl.rlim_cur < kStackSize)
-      {
-          rl.rlim_cur = kStackSize;
-          result = setrlimit(RLIMIT_STACK, &rl);
-          if (result != 0)
-          {
-              std::cerr << "setrlimit returned result = " << result << std::endl;
-          }
-      }
-  }
-
-#endif
-  return main_with_large_stack_space();
 }
