@@ -27,9 +27,9 @@ void set_kernel_stack_size() {
 #endif
 }
 
-int findMaxHeight(std::vector<Node>& nodes, int n) {
+int findMaxHeight(std::vector<Node>& nodes) {
   int maxHeight = 0;
-  for (int leaf_index = 0; leaf_index < n; leaf_index++) {
+  for (int leaf_index = 0; leaf_index < nodes.size(); leaf_index++) {
     int height = 0;
     for (Node *v = &nodes[leaf_index]; v != NULL; v = v->parent)
       height++;

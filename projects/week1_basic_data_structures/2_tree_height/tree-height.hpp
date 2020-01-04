@@ -22,6 +22,6 @@ public:
 };
 
 void set_kernel_stack_size();
-int findMaxHeight(std::vector<Node>& nodes, int n);
+int findMaxHeight(std::vector<Node>& nodes);
 
 #endif
