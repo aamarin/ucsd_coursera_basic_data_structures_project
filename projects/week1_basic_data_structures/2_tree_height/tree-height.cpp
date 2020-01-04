@@ -38,27 +38,3 @@ int findMaxHeight(std::vector<Node>& nodes, int n) {
 
   return maxHeight;
 }
-
-int main (int argc, char **argv)
-{
-  set_kernel_stack_size();
-
-  std::ios_base::sync_with_stdio(0);
-  int n;
-  std::cin >> n;
-
-  std::vector<Node> nodes;
-  nodes.resize(n);
-  for (int child_index = 0; child_index < n; child_index++) {
-    int parent_index;
-    std::cin >> parent_index;
-    if (parent_index >= 0)
-      nodes[child_index].setParent(&nodes[parent_index]);
-    nodes[child_index].key = child_index;
-  }
-
-  // Replace this code with a faster implementation
-  int maxHeight = findMaxHeight(nodes, n);
-  std::cout << maxHeight << std::endl;
-  return 0;
-}

@@ -1,5 +1,6 @@
 #ifndef TREE_HEIGHT_H
 #define TREE_HEIGHT_H
+
 #include <vector>
 
 class Node;
@@ -21,6 +22,6 @@ public:
 };
 
 void set_kernel_stack_size();
-int findMaxHeight(const std::vector<Node>& nodes, int n);
+int findMaxHeight(std::vector<Node>& nodes, int n);
 
 #endif
