@@ -7,8 +7,8 @@ test: $(TEST_OBJS)
 	$(CC) $(CXXFLAGS) -o test $(TEST_OBJS)
 
 catch.o: $(INC_DIR)/catch.hpp
-tree-height.o : tree-height.hpp
-tree-height-ut.o: $(INC_DIR)/catch.hpp tree-height.hpp
+tree-height.o : tree-height.hpp $(INC_DIR)/catch.hpp
+tree-height-ut.o: $(INC_DIR)/catch.hpp
 .PHONY: clean
 clean:
 	rm $(TEST_OBJS) test
