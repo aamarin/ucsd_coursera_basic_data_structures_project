@@ -32,4 +32,34 @@ TEST_CASE("Testing process_packages", "[process_packages]") {
         std::vector<Response> EXPECTED = createExpectedResponse("tests/01.a");
         REQUIRE( passedCheck("tests/01", EXPECTED) );
     }
+
+    {
+        std::vector<Response> EXPECTED = createExpectedResponse("tests/02.a");
+        REQUIRE( passedCheck("tests/02", EXPECTED) );
+    }
+
+    {
+        std::vector<Response> EXPECTED = createExpectedResponse("tests/03.a");
+        REQUIRE( passedCheck("tests/03", EXPECTED) );
+    }
+
+    {
+        std::vector<Response> EXPECTED = createExpectedResponse("tests/04.a");
+        REQUIRE( passedCheck("tests/04", EXPECTED) );
+    }
+
+    {
+        std::vector<Response> EXPECTED = createExpectedResponse("tests/05.a");
+        REQUIRE( passedCheck("tests/05", EXPECTED) );
+    }
+
+    {
+        std::vector<Response> EXPECTED = createExpectedResponse("tests/06.a");
+        REQUIRE( passedCheck("tests/06", EXPECTED) );
+    }
+
+    {
+        std::vector<Response> EXPECTED = createExpectedResponse("tests/07.a");
+        REQUIRE( passedCheck("tests/07", EXPECTED) );
+    }
 }
