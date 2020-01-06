@@ -19,6 +19,11 @@ struct Response {
         start_time(start_time)
     {}
 
+    bool operator==(const Response& l) const {
+        return (l.dropped == dropped &&
+        l.start_time == start_time);
+    }
+
     bool dropped;
     int start_time;
 };
@@ -32,7 +37,8 @@ public:
 
     Response Process(const Request &request) {
         // write your code here
-        size_ = 0;
+        std::cout << size_ << std::endl;
+        std::cout << finish_time_.empty() << std::endl;
         return Response(false, 0);
     }
 private:
@@ -40,8 +46,7 @@ private:
     std::queue <int> finish_time_;
 };
 
-std::vector <Request> ReadRequests();
-std::vector <Response> ProcessRequests(const std::vector <Request> &requests, Buffer *buffer);
-void PrintResponses(const std::vector <Response> &responses);
+void ReadRequests(const std::string& fileName, int& outBufferSize, std::vector<Request>& outRequest);
+std::vector<Response> ProcessRequests(const std::vector<Request>& requests, Buffer *buffer);
 
 #endif

@@ -11,4 +11,4 @@ process_packages.o : process_packages.hpp
 process_packages_ut.o: $(INC_DIR)/catch.hpp
 .PHONY: clean
 clean:
-	rm $(TEST_OBJS) test
+	rm -rf $(TEST_OBJS) test
