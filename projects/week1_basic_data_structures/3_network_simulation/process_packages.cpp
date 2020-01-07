@@ -26,3 +26,12 @@ std::vector<Response> ProcessRequests(const std::vector<Request>& requests, Buff
 
     return responses;
 }
+
+std::vector<int> CreateResponseOutput(const std::vector <Response>& responses) {
+    std::vector<int> output;
+
+    for (int i = 0; i < responses.size(); ++i)
+        output.push_back(responses[i].dropped ? -1 : responses[i].start_time);
+
+    return output;
+}

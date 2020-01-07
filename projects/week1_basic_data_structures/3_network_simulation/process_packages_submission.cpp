@@ -30,7 +30,24 @@ public:
     {}
 
     Response Process(const Request &request) {
-        // write your code here
+        Response response(false, request.arrival_time);
+
+        if(finish_time_.empty()) {
+            // process packet immediately
+            finish_time_.push(request.arrival_time + request.process_time);
+            return response;
+        }
+
+        // If we are here, the computer will start processing the new packet
+        // as soon as it finishes to process the last of the packets currently in finish_time
+        if(size_ == finish_time_.size()) {
+            return Response(true, request.arrival_time);
+        }
+
+        finish_time_.pop();
+        finish_time_.push(request.arrival_time + request.process_time);
+
+        return response;
     }
 private:
     int size_;

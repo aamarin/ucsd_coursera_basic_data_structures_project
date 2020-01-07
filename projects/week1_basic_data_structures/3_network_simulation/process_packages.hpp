@@ -36,11 +36,37 @@ public:
     {}
 
     Response Process(const Request &request) {
-        // write your code here
-        std::cout << size_ << std::endl;
-        std::cout << finish_time_.empty() << std::endl;
-        return Response(false, 0);
+        // std::cout << "New Process() call, new arrival time: " << request.arrival_time << std::endl;
+
+        if(finish_time_.empty()) {
+            // std::cout << "(empty queue) Response arrival time: " << request.arrival_time << ", finish time pushed in: " << request.arrival_time + request.process_time << std::endl;
+            finish_time_.push(request.arrival_time + request.process_time);
+            return Response(false, request.arrival_time);
+        }
+
+        while (!finish_time_.empty() && request.arrival_time >= finish_time_.front())
+        {
+            // std::cout << "DROPPED " << finish_time_.front() << std::endl;
+            finish_time_.pop();
+        }
+
+        if(size_ == finish_time_.size()) {
+            // std::cout << "Buffer full, dropping packet" << finish_time_.front() << std::endl;
+            return Response(true, request.arrival_time);
+        }
+
+        if(request.arrival_time > finish_time_.back()) {
+            // std::cout << "(not empty queue), arrive > finish.back(), Response arrival time: " << request.arrival_time << ", finish time pushed in: " << request.arrival_time + request.process_time << std::endl;
+            finish_time_.push(request.arrival_time + request.process_time);
+            return Response(false, request.arrival_time);;
+        }
+
+        // std::cout << "(not empty queue) Response arrival time: " << finish_time_.back() << ", finish time pushed in: " << finish_time_.back() + request.process_time << std::endl;
+        Response response(false, finish_time_.back());
+        finish_time_.push(finish_time_.back() + request.process_time);
+        return response;
     }
+
 private:
     int size_;
     std::queue <int> finish_time_;
@@ -48,5 +74,6 @@ private:
 
 void ReadRequests(const std::string& fileName, int& outBufferSize, std::vector<Request>& outRequest);
 std::vector<Response> ProcessRequests(const std::vector<Request>& requests, Buffer *buffer);
+std::vector<int> CreateResponseOutput(const std::vector <Response>& responses);
 
 #endif
